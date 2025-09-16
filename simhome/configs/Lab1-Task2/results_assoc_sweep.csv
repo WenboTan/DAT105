@@ -1,0 +1,17 @@
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/assoc_1_size_16k_bsize_32,assoc_1_size_16k_bsize_32,dijkstra,54882916,247663488,4.5126,0.00340,0.01067
+Lab1-Task2/assoc_1_size_16k_bsize_32,assoc_1_size_16k_bsize_32,qsort,41903758,274336202,6.5468,0.00435,0.03805
+Lab1-Task2/assoc_1_size_16k_bsize_32,assoc_1_size_16k_bsize_32,stringsearch-cabce,300884,2539677,8.4407,0.03597,0.00340
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/assoc_2_size_16k_bsize_32,assoc_2_size_16k_bsize_32,dijkstra,54882916,241332049,4.3972,0.00243,0.01067
+Lab1-Task2/assoc_2_size_16k_bsize_32,assoc_2_size_16k_bsize_32,qsort,41903758,268075674,6.3974,0.00290,0.03805
+Lab1-Task2/assoc_2_size_16k_bsize_32,assoc_2_size_16k_bsize_32,stringsearch-cabce,300884,1398900,4.6493,0.01300,0.00340
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/assoc_4_size_16k_bsize_32,assoc_4_size_16k_bsize_32,dijkstra,54882916,220846148,4.0240,0.00020,0.01067
+Lab1-Task2/assoc_4_size_16k_bsize_32,assoc_4_size_16k_bsize_32,qsort,41903758,245994952,5.8705,0.00003,0.03805
+Lab1-Task2/assoc_4_size_16k_bsize_32,assoc_4_size_16k_bsize_32,stringsearch-cabce,300884,1110343,3.6903,0.00792,0.00340
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/assoc_8_size_16k_bsize_32,assoc_8_size_16k_bsize_32,dijkstra,54882916,219910386,4.0069,0.00010,0.01067
+Lab1-Task2/assoc_8_size_16k_bsize_32,assoc_8_size_16k_bsize_32,qsort,41903758,245957032,5.8696,0.00002,0.03805
+Lab1-Task2/assoc_8_size_16k_bsize_32,assoc_8_size_16k_bsize_32,stringsearch-cabce,300884,901380,2.9958,0.00364,0.00340

@@ -1,0 +1,9 @@
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/bsize_32_size_16k_assoc_2,bsize_32_size_16k_assoc_2,dijkstra,54882916,241332183,4.3972,0.00243,0.01067
+Lab1-Task2/bsize_32_size_16k_assoc_2,bsize_32_size_16k_assoc_2,qsort,41903758,268075874,6.3974,0.00290,0.03805
+Lab1-Task2/bsize_32_size_16k_assoc_2,bsize_32_size_16k_assoc_2,stringsearch-cabce,300884,1398900,4.6493,0.01300,0.00340
+DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1
+Lab1-Task2/bsize_128_size_16k_assoc_2,bsize_128_size_16k_assoc_2,dijkstra,54882916,239684842,4.3672,0.00177,0.01067
+Lab1-Task2/bsize_128_size_16k_assoc_2,bsize_128_size_16k_assoc_2,qsort,41903758,254390271,6.0708,0.00121,0.03805
+Lab1-Task2/bsize_128_size_16k_assoc_2,bsize_128_size_16k_assoc_2,stringsearch-cabce,300884,1197637,3.9804,0.00885,0.00340
