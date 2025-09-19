@@ -1,0 +1,118 @@
+#!/bin/bash
+# A comprehensive script to automate Task 2 for all combinations of size and associativity.
+# This script is configured by changing the BSIZE variable below.
+# 一个用于自动执行任务二、测试所有大小和相联度组合的综合脚本。
+# 通过修改下面的 BSIZE 变量来配置此脚本。
+
+set -e
+
+echo "Performing pre-flight checks..."
+echo "正在进行执行前检查..."
+if [ ! -f "base1.txt" ] || [ ! -f "runsim_sim" ] || [ ! -x "bin/sim-outorder" ]; then
+    echo "Error: Missing required files!" >&2
+    exit 1
+fi
+echo "Pre-flight checks passed."
+
+# --- ###################### CONFIGURATION ###################### ---
+# --- ######################### 配置区 ######################### ---
+
+# Set the Block Size for this entire run (32 or 128).
+# 为本次完整运行设置块大小 (32 或 128)。
+# <-- RUN ONCE WITH 32, THEN CHANGE TO 128 AND RUN AGAIN -->
+# <-- 先用32运行一次，然后改成128再运行一次 -->
+BSIZE=32
+
+# --- ################### END OF CONFIGURATION ################## ---
+# --- ###################### 配置区结束 ####################### ---
+
+# --- Static Variables (静态变量) ---
+TASK_DIR="Lab1-Task2"
+REPL="l"
+SIZES_KB=( 4 8 16 32 )
+ASSOC_LIST=( 1 2 4 8 )
+OUTPUT_CSV="configs/${TASK_DIR}/results_bsize_${BSIZE}.csv"
+
+# --- Main Script Logic (主脚本逻辑) ---
+echo ""
+echo "Starting exhaustive sweep for Block Size: ${BSIZE}B..."
+echo "开始进行块大小为 ${BSIZE}B 的详尽扫描实验..."
+mkdir -p "configs/${TASK_DIR}"
+
+# Write the header row to the CSV file, overwriting the old file.
+# 将表头写入CSV文件，覆盖旧文件。
+echo "DIR,CFG,BENCHMARK,sim_num_insn,sim_cycle,sim_CPI,mpi_il1,mpi_dl1" > "$OUTPUT_CSV"
+
+# Outer loop for cache sizes.
+# 外层循环遍历缓存大小。
+for size_kb in "${SIZES_KB[@]}"
+do
+    # Inner loop for associativities.
+    # 内层循环遍历相联度。
+    for assoc in "${ASSOC_LIST[@]}"
+    do
+        # --- Step 1: Calculate parameters (第一步：计算参数) ---
+        size_bytes=$((size_kb * 1024))
+        nsets=$((size_bytes / (BSIZE * assoc)))
+        
+        # Comprehensive latency lookup based on Lab Manual Table 2.
+        # 基于实验手册表格2的完整延迟查找逻辑。
+        latency=0
+        case $size_kb in
+            4)
+                case $assoc in
+                    1) latency=1 ;; 2) latency=1 ;; 4) latency=2 ;; 8) latency=2 ;;
+                esac
+                ;;
+            8)
+                case $assoc in
+                    1) latency=1 ;; 2) latency=2 ;; 4) latency=2 ;; 8) latency=3 ;;
+                esac
+                ;;
+            16)
+                case $assoc in
+                    1) latency=2 ;; 2) latency=2 ;; 4) latency=3 ;; 8) latency=3 ;;
+                esac
+                ;;
+            32)
+                case $assoc in
+                    1) latency=2 ;; 2) latency=3 ;; 4) latency=3 ;; 8) latency=4 ;;
+                esac
+                ;;
+        esac
+
+        EXP_NAME="bsize${BSIZE}_size${size_kb}k_assoc${assoc}"
+        RUN_DIR="${TASK_DIR}/${EXP_NAME}"
+        CONFIG_FILE_PATH="configs/${RUN_DIR}/${EXP_NAME}.txt"
+
+        echo "----------------------------------------------------"
+        echo "Preparing experiment: ${EXP_NAME}"
+        
+        # --- Step 2: Create the configuration file (第二步：创建配置文件) ---
+        mkdir -p "configs/${RUN_DIR}"
+        
+        sed \
+            -e "s/^-cache:il1.*/-cache:il1 il1:${nsets}:${BSIZE}:${assoc}:${REPL}/" \
+            -e "s/^-cache:il1lat.*/-cache:il1lat ${latency}/" \
+            < base1.txt > "$CONFIG_FILE_PATH"
+
+        # --- Step 3: Run the simulation (第三步：运行模拟) ---
+        echo "  - Running simulation for ${EXP_NAME}..."
+        ./runsim_sim "${RUN_DIR}" "${EXP_NAME}"
+        
+        # --- Step 4: Parse results and append to CSV (第四步：解析结果并追加到CSV) ---
+        ./stats_parser "${RUN_DIR}" "${EXP_NAME}" >> "$OUTPUT_CSV"
+
+        echo "  - Experiment ${EXP_NAME} finished and results saved."
+        echo "----------------------------------------------------"
+
+    done
+done
+
+echo ""
+echo "All simulations for BSIZE=${BSIZE} are complete."
+echo "所有关于块大小=${BSIZE}的模拟已完成。"
+echo "Results have been saved to ${OUTPUT_CSV}"
+echo "结果已保存至 ${OUTPUT_CSV}"
+echo "Script finished successfully."
+echo "脚本成功运行完毕。"
